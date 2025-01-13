@@ -9,9 +9,9 @@ add_definitions(${GMP_DEFINIONS})
 
 if(USE_ASM)
     if(ARCH MATCHES "arm64")
-            add_definitions(-DUSE_ASM -DARCH_ARM64)
+        add_definitions(-DUSE_ASM -DARCH_ARM64)
     elseif(ARCH MATCHES "x86_64")
-            add_definitions(-DUSE_ASM -DARCH_X86_64)
+        add_definitions(-DUSE_ASM -DARCH_X86_64)
     endif()
 endif()
 
@@ -65,21 +65,28 @@ set(LIB_SOURCES
     witnesscalc.cpp
     )
 
-# authV2
-set(AUTHV2_SOURCES ${LIB_SOURCES}
-    authV2.cpp
-    witnesscalc_authV2.h
-    witnesscalc_authV2.cpp
+# Loop through all circuits provided dynamically
+foreach(CIRCUIT_NAME ${CIRCUIT_NAMES})
+    message(STATUS "Configuring for circuit: ${CIRCUIT_NAME}")
+
+    # Circuit-specific sources
+    set(CIRCUIT_SOURCES ${LIB_SOURCES}
+        ${CIRCUIT_NAME}.cpp
+        witnesscalc_${CIRCUIT_NAME}.h
+        witnesscalc_${CIRCUIT_NAME}.cpp
     )
 
-add_library(witnesscalc_authV2 SHARED ${AUTHV2_SOURCES})
-add_library(witnesscalc_authV2Static STATIC ${AUTHV2_SOURCES})
-set_target_properties(witnesscalc_authV2Static PROPERTIES OUTPUT_NAME witnesscalc_authV2)
+    # Create shared and static libraries for the circuit
+    add_library(witnesscalc_${CIRCUIT_NAME} SHARED ${CIRCUIT_SOURCES})
+    add_library(witnesscalc_${CIRCUIT_NAME}Static STATIC ${CIRCUIT_SOURCES})
+    set_target_properties(witnesscalc_${CIRCUIT_NAME}Static PROPERTIES OUTPUT_NAME witnesscalc_${CIRCUIT_NAME})
 
-add_executable(authV2 main.cpp)
-target_link_libraries(authV2 witnesscalc_authV2Static)
+    # Create the circuit executable
+    add_executable(${CIRCUIT_NAME} main.cpp)
+    target_link_libraries(${CIRCUIT_NAME} witnesscalc_${CIRCUIT_NAME}Static)
 
-target_compile_definitions(witnesscalc_authV2 PUBLIC CIRCUIT_NAME=authV2)
-target_compile_definitions(witnesscalc_authV2Static PUBLIC CIRCUIT_NAME=authV2)
-target_compile_definitions(authV2 PUBLIC CIRCUIT_NAME=authV2)
-
+    # Define circuit-specific macros
+    target_compile_definitions(witnesscalc_${CIRCUIT_NAME} PUBLIC CIRCUIT_NAME=${CIRCUIT_NAME})
+    target_compile_definitions(witnesscalc_${CIRCUIT_NAME}Static PUBLIC CIRCUIT_NAME=${CIRCUIT_NAME})
+    target_compile_definitions(${CIRCUIT_NAME} PUBLIC CIRCUIT_NAME=${CIRCUIT_NAME})
+endforeach()

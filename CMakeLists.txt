@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 3.5)
 
 include(cmake/platform.cmake)
 
+# Read CIRCUIT_NAMES from an environment variable
+if (DEFINED ENV{CIRCUIT_NAMES})
+    set(CIRCUIT_NAMES $ENV{CIRCUIT_NAMES})
+else()
+    message(FATAL_ERROR "Environment variable CIRCUIT_NAMES is not set.")
+endif()
+
 set(USE_ASM ON CACHE BOOL "Use asm implementation for Fr and Fq")
 
 project(witnesscalc LANGUAGES CXX ASM)
@@ -31,12 +38,25 @@ include_directories(BEFORE ${GMP_INCLUDE_DIR})
 add_subdirectory(src)
 
 
+# Split CIRCUIT_NAMES into a list
+string(REPLACE ";" ";" CIRCUIT_NAMES "${CIRCUIT_NAMES}")
+message(STATUS "CIRCUIT_NAMES: ${CIRCUIT_NAMES}")
+
+foreach(CIRCUIT_NAME ${CIRCUIT_NAMES})
+    message(STATUS "Configuring targets for circuit: ${CIRCUIT_NAME}")
+
+    install(TARGETS
+        ${CIRCUIT_NAME}
+        witnesscalc_${CIRCUIT_NAME}
+        witnesscalc_${CIRCUIT_NAME}Static
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+        BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX}/app
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+endforeach()
+
 install(TARGETS
     tests
     test_platform
-    authV2
-    witnesscalc_authV2
-    witnesscalc_authV2Static
     fr
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX}/app
@@ -45,11 +65,24 @@ install(TARGETS
 install(FILES "${GMP_LIB_DIR}/${GMP_LIB_FILE}"
     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
-install(FILES
-    src/authV2.dat
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+
+foreach(CIRCUIT_NAME ${CIRCUIT_NAMES})
+    message(STATUS "Configuring files for circuit: ${CIRCUIT_NAME}")
+
+    install(FILES
+        src/${CIRCUIT_NAME}.dat
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+endforeach()
+
+
+foreach(CIRCUIT_NAME ${CIRCUIT_NAMES})
+    message(STATUS "Configuring headers for circuit: ${CIRCUIT_NAME}")
+
+    install(FILES
+        src/witnesscalc_${CIRCUIT_NAME}.h
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+endforeach()
 
 install(FILES
     src/witnesscalc.h
-    src/witnesscalc_authV2.h
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
