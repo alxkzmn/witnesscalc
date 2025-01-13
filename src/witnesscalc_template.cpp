@@ -1,8 +1,8 @@
-#include "witnesscalc_authV2.h"
+#include "witnesscalc_@CIRCUIT_NAME@.h"
 #include "witnesscalc.h"
 
 int
-witnesscalc_authV2(
+witnesscalc_@CIRCUIT_NAME@(
     const char *circuit_buffer,  unsigned long  circuit_size,
     const char *json_buffer,     unsigned long  json_size,
     char       *wtns_buffer,     unsigned long *wtns_size,

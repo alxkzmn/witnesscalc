@@ -1,5 +1,5 @@
-#ifndef WITNESSCALC_AUTHV2_H
-#define WITNESSCALC_AUTHV2_H
+#ifndef WITNESSCALC_@CIRCUIT_NAME_CAPS@_H
+#define WITNESSCALC_@CIRCUIT_NAME_CAPS@_H
 
 
 #ifdef __cplusplus
@@ -25,7 +25,7 @@ extern "C" {
  */
 
 int
-witnesscalc_authV2(
+witnesscalc_@CIRCUIT_NAME@(
     const char *circuit_buffer,  unsigned long  circuit_size,
     const char *json_buffer,     unsigned long  json_size,
     char       *wtns_buffer,     unsigned long *wtns_size,
@@ -36,4 +36,4 @@ witnesscalc_authV2(
 #endif
 
 
-#endif // WITNESSCALC_AUTHV2_H
+#endif
