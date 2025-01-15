@@ -23,11 +23,11 @@ android_x86_64:
 
 ios:
 	rm -rf build_witnesscalc_ios && mkdir build_witnesscalc_ios && cd build_witnesscalc_ios && \
-	cmake .. -GXcode -DTARGET_PLATFORM=IOS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package_ios && \
-    echo "" && echo "Now open Xcode and compile the generated project" && echo ""
+	cmake .. -DCMAKE_SYSTEM_NAME=iOS -DTARGET_PLATFORM=IOS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package 
+	cd build_witnesscalc_ios && make && make install
 
 ios_x86_64:
 	rm -rf build_witnesscalc_ios_x86_64 && mkdir build_witnesscalc_ios_x86_64 && cd build_witnesscalc_ios_x86_64 && \
-	cmake .. -GXcode -DTARGET_PLATFORM=IOS_x86_64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package_ios_x86_64 && \
-    echo "" && echo "Now open Xcode and compile the generated project" && echo ""
+	cmake .. -DCMAKE_SYSTEM_NAME=iOS -DTARGET_PLATFORM=IOS_x86_64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package
+	cd build_witnesscalc_ios && make && make install
 
