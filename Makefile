@@ -23,16 +23,16 @@ android_x86_64:
 
 ios:
 	rm -rf build_witnesscalc_ios && mkdir build_witnesscalc_ios && cd build_witnesscalc_ios && \
-	cmake .. -DCMAKE_SYSTEM_NAME=iOS -DTARGET_PLATFORM=IOS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package && \
+	cmake .. -DTARGET_PLATFORM=IOS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package && \
 	make && make install
 
 ios_simulator_arm64:
 	rm -rf build_witnesscalc_ios_simulator_arm64 && mkdir build_witnesscalc_ios_simulator_arm64 && cd build_witnesscalc_ios_simulator_arm64 && \
-	cmake .. -DCMAKE_SYSTEM_NAME=iOS -DTARGET_PLATFORM=IOS_SIMULATOR -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package && \
+	cmake .. -DTARGET_PLATFORM=IOS_SIMULATOR -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package && \
     make && make install
 
 ios_simulator_x86_64:
 	rm -rf build_witnesscalc_ios_simulator_x86_64 && mkdir build_witnesscalc_ios_simulator_x86_64 && cd build_witnesscalc_ios_simulator_x86_64 && \
-	cmake .. -DCMAKE_SYSTEM_NAME=iOS -DTARGET_PLATFORM=IOS_SIMULATOR_x86_64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package && \
+	cmake .. -DTARGET_PLATFORM=IOS_SIMULATOR_x86_64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package && \
     make && make install
 
