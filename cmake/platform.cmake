@@ -46,6 +46,19 @@ elseif(TARGET_PLATFORM MATCHES "ios")
         set(ARCH arm64)
     endif()
 
+elseif(TARGET_PLATFORM MATCHES "ios_simulator")
+
+    set(CMAKE_SYSTEM_NAME iOS)
+    if(TARGET_PLATFORM MATCHES "ios_simulator_x86_64")
+        set(CMAKE_OSX_ARCHITECTURES x86_64)
+        set(GMP_PREFIX ${GMP_ROOT}/package_iphone_simulator_x86_64)
+        set(ARCH x86_64)
+    else()
+        set(CMAKE_OSX_ARCHITECTURES arm64)
+        set(GMP_PREFIX ${GMP_ROOT}/package_iphone_simulator_arm64)
+        set(ARCH arm64)
+    endif()
+
 elseif(TARGET_PLATFORM MATCHES "aarch64")
 
     set(GMP_PREFIX ${GMP_ROOT}/package_aarch64)
