@@ -21,6 +21,11 @@ android_x86_64:
 	cmake .. -DTARGET_PLATFORM=ANDROID_x86_64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package && \
 	make -j4 -vvv && make install
 
+android_x86_32:
+	rm -rf build_witnesscalc_android_x86 && mkdir build_witnesscalc_android_x86 && cd build_witnesscalc_android_x86 && \
+	cmake .. -DTARGET_PLATFORM=ANDROID_x86_32 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package && \
+	make -j4 -vvv && make install
+
 ios:
 	rm -rf build_witnesscalc_ios && mkdir build_witnesscalc_ios && cd build_witnesscalc_ios && \
 	cmake .. -DTARGET_PLATFORM=IOS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../package && \

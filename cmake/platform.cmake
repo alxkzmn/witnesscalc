@@ -24,6 +24,10 @@ if(TARGET_PLATFORM MATCHES "android")
         set(CMAKE_ANDROID_ARCH_ABI x86_64)
         set(GMP_PREFIX ${GMP_ROOT}/package_android_x86_64)
         set(ARCH x86_64)
+    elseif(TARGET_PLATFORM MATCHES "android_x86_32")
+        set(CMAKE_ANDROID_ARCH_ABI x86)
+        set(GMP_PREFIX ${GMP_ROOT}/package_android_x86)
+        set(ARCH x86)
     else()
         set(CMAKE_ANDROID_ARCH_ABI arm64-v8a)
         set(GMP_PREFIX ${GMP_ROOT}/package_android_arm64)
@@ -31,7 +35,6 @@ if(TARGET_PLATFORM MATCHES "android")
     endif()
 
     message("CMAKE_ANDROID_ARCH_ABI=" ${CMAKE_ANDROID_ARCH_ABI})
-
 
 elseif(TARGET_PLATFORM MATCHES "ios_simulator")
 

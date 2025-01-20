@@ -9,7 +9,9 @@ else()
     message(FATAL_ERROR "Environment variable CIRCUIT_NAMES is not set.")
 endif()
 
-set(USE_ASM ON CACHE BOOL "Use asm implementation for Fr and Fq")
+if (NOT TARGET_PLATFORM MATCHES "android_x86_32")
+    set(USE_ASM ON CACHE BOOL "Use asm implementation for Fr and Fq")
+endif()
 
 project(witnesscalc LANGUAGES CXX ASM)
 
